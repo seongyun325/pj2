@@ -1,0 +1,19 @@
+import cv2
+
+webcam = cv2.VideoCapture("http://10.10.11.49:8080/?action=stream")
+
+if not webcam.isOpened():
+    print("could not open")
+    exit()
+
+while webcam.isOpened():
+    status, frame = webcam.read()
+
+    if status:
+        cv2.imshow("test", frame)
+
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        break
+
+webcam.release()
+cv2.destroyAllWindows()
