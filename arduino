@@ -47,26 +47,30 @@ void loop() {
   {
     if(inputString.substring(0,5) == "servo")
     {
-      if(inputString.substring(5,6) == "1"){
-          digitalWrite(SERVO, HIGH);
-          servo.write(100);
-        while(true){
-          if(inputString.substring(5,6) == "0")
-            digitalWrite(SERVO, LOW);
-            servo.write(-10);
-            break;
-        }
+      if(inputString.substring(5,6) == "0"){
+        digitalWrite(SERVO, LOW );
+        servo.write(-10);
       }
-      else if(inputString.substring(5,6) == "0"){
+      else if(inputString.substring(5,6) == "1"){
+        digitalWrite(SERVO, HIGH);
+        servo.write(100);
+        }
+      else if(inputString.substring(5,6) == "2"){
         digitalWrite(SERVO, LOW );
         servo.write(-10);
         }
+      else if(inputString.substring(5,6) == "3"){
+        digitalWrite(SERVO, HIGH);
+          servo.write(100);
+        }    
     }
+    
     Serial.println(inputString);
     inputString = "";
     stringComplete = false;
   }
   delay(250);
+  
 
 }
 void serialEvent() {
