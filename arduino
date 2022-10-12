@@ -6,16 +6,22 @@ const int echo_pin = 12;
 
 Servo servo;
 
+String  inputString    = "";
+boolean stringComplete = false;
+
 void setup() {
   pinMode(trig_pin, OUTPUT);
   pinMode(echo_pin, INPUT);
+  pinMode(SERVO, OUTPUT);
   Serial.begin(9600);
+  inputString.reserve(10);
   servo.attach(SERVO);
   servo.write(0);
   delay(1000);
 }
 
 void loop() {
+  
   digitalWrite(trig_pin, LOW);
   delayMicroseconds(2);
   digitalWrite(trig_pin, HIGH);
@@ -25,29 +31,43 @@ void loop() {
   long duration = pulseIn(echo_pin, HIGH);
   long distance = (duration/2) /29.1;
 
-  //Serial.print("dis");
-  Serial.print(distance);
-  Serial.println(" cm");
-  delay(1000);
+  if(distance < 70) {
+    Serial.print("dis");
+    Serial.println(distance);
+    delay(500);
+  }
   
-  if(Serial.available()){
-    char userInput = Serial.read();
-
-    switch(userInput){
-      case '0':
-          servo.write(-10);
-          delay(1000);
-          break;
-      case '1':
-          servo.write(100);
-          delay(1000);
-          break;
-      default:
-          break;  
+  if(stringComplete) 
+  {
+    if(inputString.substring(0,5) == "servo")
+    {
+      if(inputString.substring(5,6) == "1"){
+        digitalWrite(SERVO, HIGH);
+        servo.write(100);
+        delay(1000);
+      }
+      else if(inputString.substring(5,6) == "0"){
+        digitalWrite(SERVO, LOW );
+        servo.write(-10);
+        delay(1000);
       }
     }
+    Serial.println(inputString);
+    inputString = "";
+    stringComplete = false;
+  }
+  delay(250);
 
-  if(distance >= 70) {
-    servo.write(-10);
+
+if(distance >= 70) {
+  servo.write(-10);
+}
+}
+void serialEvent() {
+  while (Serial.available() > 0) {
+    char inChar = Serial.read();
+    inputString = inputString + inChar;
+    if(inChar == '\n') stringComplete = true;
   }
 }
+
