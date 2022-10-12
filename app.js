@@ -6,7 +6,7 @@ var http     = require('http').Server(app);
 
 var io       = require('socket.io')(http);
 var tmp;
- 
+var oper = 0;
 
 const path = require('path');
 
@@ -54,6 +54,7 @@ parser.on('data', function(data)
 		distance = parseInt(val);
 		console.log('distance: ' + distance);
      	if (distance < 70) {
+		 oper = 1;
          // 1. child-process모듈의 spawn 취득
          const spawn = require('child_process').spawn;
 
@@ -65,6 +66,7 @@ parser.on('data', function(data)
          result.stdout.on('data', function(data) {
             console.log(data.toString());
             if (data == "cow") {
+				oper = 1;
             	sp.write('servo1\n\r', function(err){
 				  if (err) {
 						return console.log('Error on write: ', err.message);
@@ -81,11 +83,10 @@ parser.on('data', function(data)
          });
         }
      }
+});  
       
-      
-app.get('/open',function(req,res)
-
-{
+// 건드린 부분	  
+if (oper && app.get('/open',function(req,res) == 1){
 
    sp.write('servo1\n\r', function(err){
 
@@ -99,23 +100,27 @@ app.get('/open',function(req,res)
 
       res.writeHead(200, {'Content-Type': 'text/plain'});
 
-      //res.end('bucket open\n')led1
-;
+   });
+});   
+   
+else{
+	sp.write('servo3\n\r', function(err){
+
+      if (err) {
+
+            return console.log('Error on write: ', err.message);
+
+        }
+	
+        console.log('send: bucket open');
+
+      res.writeHead(200, {'Content-Type': 'text/plain'});
 
    });
-
-});
-      //io.emit('bucket', bucketStatus);
-
-});
-
- 
+}
 
 
- 
-
-app.get('/close',function(req,res)
-
+if (oper && app.get('/close',function(req,res) == 1)
 {
 
    sp.write('servo0\n\r', function(err){
@@ -135,6 +140,22 @@ app.get('/close',function(req,res)
    }); 
 
 });
+
+else{
+	sp.write('servo2\n\r', function(err){
+
+      if (err) {
+
+            return console.log('Error on write: ', err.message);
+
+        }
+
+        console.log('send: bucket open');
+
+      res.writeHead(200, {'Content-Type': 'text/plain'});
+
+   });
+}
  
 
 app.use(express.static(__dirname + '/public'));
@@ -145,5 +166,3 @@ http.listen(port, function() {  // server.listen(port, function() {
     console.log('listening on *:' + port);
 
 });
-
-
