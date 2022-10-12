@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang=ko>
+  <head>
+    <title>Control bucket on Arduino</title>
+    <link rel="stylesheet" href="./stylesheets/style.css">
+  </head>
+  
+  <center>
+  <body> 
+    <table border="0">
+      <tr>
+        <td colspan="4"><h2> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Control bucket on Arduino </h2></td>
+      </tr>
+      <tr>
+        <td rowspan="4" width="40"> </td>
+        <td rowspan="4" width="100"><img src="./img/close.jpeg" width = "400" height = "400" id="ld"> </td>
+        <td rowspan="4" width="25"> </td>
+      </tr>
+	  </center>
+	  </table>
+
+	  <table border="0" >
+	  <tr> <center>
+		<td> &nbsp; &nbsp; </td>
+        <td> <a href="/open" target="response"> <input type="button" value="open"  onClick="Open()"   > </a></td><br>
+        <td> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </td> 
+        <td> <a href="/close" target="response"> <input type="button" value="close" onClick="Close()"  > </a></td>
+	  </center></tr>
+    </table>
+	
+
+	
+	
+    
+    <!-- <table border="0">
+      <tr>
+        <td rowspan="2">Status Message:  </br> &nbsp; </br> &nbsp;</td>
+        <td>
+          <iframe src="about:blank" width="300" height="35" frameborder="0"
+          marginwidth="0" marginheight="0" scrolling="no" name="response"></iframe>
+        </td>
+      </tr>
+      <tr>
+        <td> &nbsp; </td>
+      </tr>
+    </table> -->
+    
+    <script>
+	
+      
+      function Open(){
+        document.getElementById("ld").src = "./img/open.PNG";
+      }
+      
+      function Close(){
+        document.getElementById("ld").src = "./img/close.jpeg";
+      }
+    </script>
+	</center>
+  </body>
+</html>
