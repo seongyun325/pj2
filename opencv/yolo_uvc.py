@@ -3,6 +3,8 @@ import numpy as np
 
 # 웹캠 신호 받기
 VideoSignal = cv2.VideoCapture(2)
+if not VideoSignal.isOpened():
+	exit()
 # YOLO 가중치 파일과 CFG 파일 로드
 YOLO_net = cv2.dnn.readNet("yolov3-tiny.weights","yolov3-tiny.cfg")
 
