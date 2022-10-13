@@ -53,9 +53,12 @@ void loop() {
         while(1) {
           //inputString = Serial.read();
           //if(inputString.substring(5,6) == "0") {
-          if(Serial.available()>0) { 
-            servo.write(-10);
-            break;
+          if(Serial.available()>0) {
+            char ch = Serial.read();
+            if (ch == 48) { 
+              servo.write(-10);
+              break;
+            }
           }
         }
       }
